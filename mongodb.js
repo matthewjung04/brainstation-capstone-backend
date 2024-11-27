@@ -9,10 +9,21 @@ const connectMongoDB = async () => {
   const client = new MongoClient(url);
   try {
     await client.connect();
+
+    /* List all databases in current cluster */
     await listDatabases(client);
+
+    /* Create a new user in Users collection */
+    
+
   } catch (error) {
     console.error(error);
   }
+}
+
+const creatUsers = async (client, newUser) => {
+  const registeredUser = await client.db("TimeZest").collection("Users").insertOne(newUser);
+  console.log(`New User created with the following id: ${registeredUser.insertedId}`);
 }
 
 const listDatabases = async (client) => {

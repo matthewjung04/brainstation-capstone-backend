@@ -3,11 +3,7 @@ import express from 'express'
 import expressSession from 'express-session'
 import cors from 'cors'
 import helmet from 'helmet'
-import passport from 'passport'
-import passportGitHub from 'passport-github2'
-import connectMongoDB from './mongodb.js';
-
-
+import connectMongoDB from './mongoDB/mongodb.js';
 
 const app = express();
 const PORT = process.env.PORT || 5050;
@@ -33,13 +29,6 @@ app.use((req, res, next) => {
   res.status(500).send('Something went wrong!');
   next();
 })
-
-/* =========== Passport Config ============ */
-app.use(passport.initialize());
-app.use(passport.session());
-
-
-/* ======================================== */
 
 app.use((req,res) => {
   connectMongoDB();

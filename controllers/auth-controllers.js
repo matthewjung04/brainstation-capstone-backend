@@ -31,8 +31,34 @@ export const postSignUp = expressAsyncHandler(async (req, res) => {
 
     const savedUser = await newUser.save();
     return res.status(201).json({ message: 'User registered successfully', user: savedUser });
+
   } catch (err) {
     /* Handle unexpected errors */
     return res.status(500).json({ error: `Error registering new user: ${err.message}` });
+  }
+})
+
+export const postSignIn = expressAsyncHandler(async (req, res) => {
+  try{
+    const { username, password } = req.body;
+
+    if (!username || !password) {
+      return res.status(400).json({ error: 'All fields are required' });
+    }
+
+    const existingUser = await user.findOne({ $or: [{ username }, { password }] });
+    if (!existingUser) {
+      return res.status(400).json({ error: 'Email or username is not registered to a user' });
+    }
+
+    const hashedPassword = existingUser.password;
+    const matchingPassword = bcrypt.compare(password, hashedPassword);
+
+    if (matchingPassword) {
+      return res.status(201).json({ message: 'Successfuly signed in', data: existingUser })
+    }
+
+  } catch (err) {
+    return res.status(500).json({ error: `Error signing in existing user: ${err.message}` })
   }
 })

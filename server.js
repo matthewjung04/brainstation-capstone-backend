@@ -3,7 +3,7 @@ import express from 'express'
 import expressSession from 'express-session'
 import cors from 'cors'
 import helmet from 'helmet'
-import connectMongoDB from './mongoDB/mongodb.js';
+import authRouter from './routes/auth_routes.js'
 
 const app = express();
 const PORT = process.env.PORT || 5050;
@@ -24,15 +24,7 @@ app.use(
 );
 app.use(helmet());
 
-/* Middleware for error handling */
-app.use((req, res, next) => {
-  res.status(500).send('Something went wrong!');
-  next();
-})
-
-app.use((req,res) => {
-  connectMongoDB();
-})
+app.use('/authentication', authRouter);
 
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`)

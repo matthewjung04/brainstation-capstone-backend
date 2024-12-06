@@ -1,13 +1,13 @@
 import mongoose from 'mongoose'
+import { nameValidator, emailValidator, usernameValidator, passwordValidator } from '../utils/validators.js';
+import validate from 'mongoose-validator';
 
 const DB_USER = process.env.DB_USER || 'root';
 const DB_PASSWORD = process.env.DB_PASSWORD || 'rootroot';
+const mongodb_url = `mongodb+srv://${DB_USER}:${DB_PASSWORD}@brainstationcapstone.4u1nh.mongodb.net/`;
 
 mongoose
-  .connect(`mongodb+srv://${DB_USER}:${DB_PASSWORD}@brainstationcapstone.4u1nh.mongodb.net/`, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(mongodb_url)
   .then(() => {
     console.log("Successfully connected to database");
   })
@@ -20,31 +20,26 @@ const userSchema = new Schema({
   name: {
     type: String,
     required: [true, "can't be blank"],
-    match: [/^[a-zA-Z0-9]+$/, 'name is invalid'],
     index: true,
-    minlength: [1, 'Name must be at least 1 character'],
+    validate: nameValidator
   },
   email: {
     type: String,
     required: [true, "can't be blank"],
-    match: [/\S+@\S+\.\S+/, 'email is invalid'],
     index: true,
-    minlength: [1, 'Email must be at least 1 character'],
+    validate: emailValidator
   },
   username: {
     type: String,
     required: [true, "can't be blank"],
-    match: [/^[a-zA-Z0-9]+$/, 'name is invalid'],
     index: { unique: true },
-    minlength: [1, 'Username must be at least 1 character'],
-    maxlength: [12, "Username can't be more than 12 characters"]
+    validate: usernameValidator
   },
   password: {
     type: String,
     required: [true, "can't be blank"],
-    match: [/^[a-zA-Z0-9]+$/, 'name is invalid'],
     index: true,
-    minlength: [8, 'Password must be at least 8 character']
+    validate: passwordValidator
   }
 })
 

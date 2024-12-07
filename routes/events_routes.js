@@ -7,4 +7,7 @@ eventsRouter.route('/:username')
   .get(eventController.getUserEvents)
   .post(eventController.postUserEvents)
 
+eventsRouter.route('/:username/:eventID')
+  .put(eventController.editUserEvents)
+  
 export default eventsRouter;

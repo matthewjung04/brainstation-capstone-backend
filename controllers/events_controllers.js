@@ -51,3 +51,36 @@ export const getUserEvents = expressAsyncHandler(async (req, res) => {
     return res.status(500).json({ error: `Error getting list of event: ${err.message}` });
   }
 })
+
+export const editUserEvents = expressAsyncHandler(async (req, res) => {
+  try {
+    const { username, eventID } = req.params;
+    const eventUser = username;
+    const { eventName, startDate, endDate, repeat } = req.body;
+  
+    /* Validate request body */
+    if (!eventName || !startDate || !endDate || !repeat) {
+      return res.status(400).json({ error: 'All fields are required' });
+    }
+  
+    /* Check for existing user by username */
+    const existingUser = await user.findOne({ username });
+    if (!existingUser) {
+      return res.status(400).json({ error: 'Email or username is not registered to a user' });
+    }
+
+    const updatedEvent = await event.updateOne({ "_id": eventID }, {
+      "eventUser": eventUser,
+      "eventName": eventName,
+      "startDate": startDate,
+      "endDate": endDate,
+      "repeat": repeat
+    })
+
+    const updatedEventResults = await event.findOne({ "_id": eventID })
+    return res.status(201).json({ message: `${eventName} successfully updated for ${username}`, event: updatedEventResults });
+
+  } catch(err) {
+    return res.status(500).json({ error: `Error updating list of event: ${err.message}` });
+  }
+})

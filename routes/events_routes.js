@@ -9,5 +9,6 @@ eventsRouter.route('/:username')
 
 eventsRouter.route('/:username/:eventID')
   .put(eventController.editUserEvents)
-  
+  .delete(eventController.deleteUserEvents)
+
 export default eventsRouter;

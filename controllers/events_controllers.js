@@ -84,3 +84,22 @@ export const editUserEvents = expressAsyncHandler(async (req, res) => {
     return res.status(500).json({ error: `Error updating list of event: ${err.message}` });
   }
 })
+
+export const deleteUserEvents = expressAsyncHandler(async (req, res) => {
+  try {
+    const { username, eventID } = req.params;
+    const eventUser = username;
+    
+    /* Check for existing user by username */
+    const existingUser = await user.findOne({ username });
+    if (!existingUser) {
+      return res.status(400).json({ error: 'Email or username is not registered to a user' });
+    }
+
+    await event.deleteOne({ "_id": eventID })
+    return res.status(201).json({ message: `Event successfully deleted for ${username}` });
+
+  } catch(err) {
+    return res.status(500).json({ error: `Error deleting event: ${err.message}` });
+  }
+})

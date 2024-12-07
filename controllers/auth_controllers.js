@@ -1,6 +1,6 @@
-import expressAsyncHandler from 'express-async-handler';
-import bcrypt from 'bcrypt';
-import { user } from '../mongoDB/users_schema.js';
+import expressAsyncHandler from 'express-async-handler'
+import bcrypt from 'bcrypt'
+import { user } from '../mongodb/mongodb_schema.js'
 
 export const postSignUp = expressAsyncHandler(async (req, res) => {
   try {

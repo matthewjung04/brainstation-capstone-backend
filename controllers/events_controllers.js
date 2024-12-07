@@ -1,6 +1,7 @@
 import expressAsyncHandler from 'express-async-handler'
 import bcrypt from 'bcrypt'
 import { user, event } from '../mongodb/mongodb_schema.js'
+import { searchMongoDB } from '../mongodb/mongodb.js'
 
 export const postUserEvents = expressAsyncHandler(async (req, res) => {
   try {
@@ -101,5 +102,25 @@ export const deleteUserEvents = expressAsyncHandler(async (req, res) => {
 
   } catch(err) {
     return res.status(500).json({ error: `Error deleting event: ${err.message}` });
+  }
+})
+
+export const searchEvents = expressAsyncHandler(async (req, res) => {
+  try {
+    const { username } = req.params;
+    
+    /* Check for existing user by username */
+    const existingUser = await user.findOne({ username });
+    if (!existingUser) {
+      return res.status(400).json({ error: 'Email or username is not registered to a user' });
+    }
+
+    const searchData = await searchMongoDB(req.query.term);
+    const autoResults = searchData.filter((searchName) => searchName.eventUser == username);
+    
+    return res.status(201).json({ message: 'Autocomplete successfull', autocomplete: autoResults });
+    
+  } catch(err) {
+    return res.status(500).json({ error: `Error generating autocomplete data: ${err.message}` });
   }
 })

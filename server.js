@@ -4,7 +4,7 @@ import expressSession from 'express-session'
 import cors from 'cors'
 import helmet from 'helmet'
 import bodyParser from 'body-parser'
-import connectMongoDB from './mongodb/mongodb.js'
+import { connectMongoDB } from './mongodb/mongodb.js'
 import authRouter from './routes/auth_routes.js'
 import eventsRouter from './routes/events_routes.js'
 

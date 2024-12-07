@@ -11,4 +11,7 @@ eventsRouter.route('/:username/:eventID')
   .put(eventController.editUserEvents)
   .delete(eventController.deleteUserEvents)
 
+eventsRouter.route('/:username/autocomplete')
+  .get(eventController.searchEvents)
+
 export default eventsRouter;

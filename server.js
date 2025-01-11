@@ -18,13 +18,6 @@ app.use(
   })
 );
 app.use(express.json());
-app.use(
-  expressSession({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: true,
-  })
-);
 app.use(helmet());
 
 app.use(bodyParser.json());

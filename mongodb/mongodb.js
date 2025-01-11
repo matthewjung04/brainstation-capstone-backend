@@ -17,8 +17,6 @@ export const connectMongoDB = async () => {
   }
 }
 
-
-
 const listDatabases = async (client) => {
   const databaseList = await client.db().admin().listDatabases()
   console.log(`Successfully connected to ${databaseList.databases[0].name} database`)

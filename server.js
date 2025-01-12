@@ -27,12 +27,7 @@ app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-/* Initial Connection to MongoDB */
-app.use((req, res, next) => {
-  const client = new MongoClient(mongodb_url);
-  client.connect()
-  next();
-})
+mongoose.connect(mongodb_url, { dbName: 'TimeZest' })
 
 app.use('/authentication', authRouter);
 app.use('/events', eventsRouter);

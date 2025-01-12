@@ -5,6 +5,7 @@ import cors from 'cors'
 import helmet from 'helmet'
 import bodyParser from 'body-parser'
 import { MongoClient } from 'mongodb'
+import mongoose from 'mongoose'
 import { connectMongoDB } from './mongodb/mongodb.js'
 import authRouter from './routes/auth_routes.js'
 import eventsRouter from './routes/events_routes.js'
@@ -12,9 +13,7 @@ import eventsRouter from './routes/events_routes.js'
 const app = express();
 const PORT = process.env.PORT || 5050;
 
-const DB_USER = process.env.DB_USER || 'root';
-const DB_PASSWORD = process.env.DB_PASSWORD || 'rootroot';
-const mongodb_url = `mongodb+srv://${DB_USER}:${DB_PASSWORD}@brainstationcapstone.4u1nh.mongodb.net/`;
+const mongodb_url = process.env.MONGODB_URL;
 
 app.use(
   cors({

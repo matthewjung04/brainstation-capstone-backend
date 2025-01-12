@@ -2,9 +2,7 @@ import mongoose from 'mongoose'
 import * as mongooseValidators from '../utils/validators.js';
 import validate from 'mongoose-validator';
 
-const DB_USER = process.env.DB_USER || 'root';
-const DB_PASSWORD = process.env.DB_PASSWORD || 'rootroot';
-const mongodb_url = `mongodb+srv://${DB_USER}:${DB_PASSWORD}@brainstationcapstone.4u1nh.mongodb.net/`;
+const mongodb_url = process.env.MONGODB_URL;
 
 mongoose
   .connect(mongodb_url, { dbName: 'TimeZest' })

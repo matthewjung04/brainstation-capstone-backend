@@ -2,17 +2,6 @@ import mongoose from 'mongoose'
 import * as mongooseValidators from '../utils/validators.js';
 import validate from 'mongoose-validator';
 
-const DB_USER = process.env.DB_USER || 'root';
-const DB_PASSWORD = process.env.DB_PASSWORD || 'rootroot';
-const mongodb_url = `mongodb+srv://${DB_USER}:${DB_PASSWORD}@brainstationcapstone.4u1nh.mongodb.net/`;
-
-mongoose
-  .connect(mongodb_url, { dbName: 'TimeZest' })
-  .then(() => {
-    console.log("Successfully connected to MongoDB");
-  })
-  .catch((err) => { console.log(err) })
-
 const Schema = mongoose.Schema;
 
 /* Schema for users collection */

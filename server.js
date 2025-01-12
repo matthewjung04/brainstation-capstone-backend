@@ -4,12 +4,16 @@ import expressSession from 'express-session'
 import cors from 'cors'
 import helmet from 'helmet'
 import bodyParser from 'body-parser'
+import { MongoClient } from 'mongodb'
+import mongoose from 'mongoose'
 import { connectMongoDB } from './mongodb/mongodb.js'
 import authRouter from './routes/auth_routes.js'
 import eventsRouter from './routes/events_routes.js'
 
 const app = express();
 const PORT = process.env.PORT || 5050;
+
+const mongodb_url = process.env.MONGODB_URL;
 
 app.use(
   cors({
@@ -23,11 +27,7 @@ app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-/* Initial Connection to MongoDB */
-app.use((req, res, next) => {
-  connectMongoDB();
-  next();
-})
+mongoose.connect(mongodb_url, { dbName: 'TimeZest' })
 
 app.use('/authentication', authRouter);
 app.use('/events', eventsRouter);

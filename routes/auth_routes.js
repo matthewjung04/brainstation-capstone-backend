@@ -9,4 +9,7 @@ authRouter.route('/sign-up')
 authRouter.route('/sign-in')
   .post(authController.postSignIn)
 
+authRouter.route('/profile')
+  .get(authController.getProfile)
+
 export default authRouter;

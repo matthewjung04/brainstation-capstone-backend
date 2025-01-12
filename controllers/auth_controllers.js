@@ -1,6 +1,10 @@
 import expressAsyncHandler from 'express-async-handler'
+import 'dotenv/config'
+import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import { user } from '../mongodb/mongodb_schema.js'
+
+const jsonSecretKey = process.env.JSON_SECRET;
 
 export const postSignUp = expressAsyncHandler(async (req, res) => {
   try {
@@ -55,10 +59,16 @@ export const postSignIn = expressAsyncHandler(async (req, res) => {
     const matchingPassword = bcrypt.compare(password, hashedPassword);
 
     if (matchingPassword) {
-      return res.status(201).json({ message: 'Successfuly signed in', data: existingUser })
+      // return res.status(201).json({ message: 'Successfuly signed in', data: existingUser })
+      const token = jwt.sign({username: username, name: existingUser.name}, jsonSecretKey);
+      return res.json({ token })
     }
 
   } catch (err) {
     return res.status(500).json({ error: `Error signing in existing user: ${err.message}` })
   }
+})
+
+export const getProfile = expressAsyncHandler(async (req, res) => {
+  res.json(req.decode)
 })

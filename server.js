@@ -22,6 +22,7 @@ app.use(
   })
 );
 app.use(express.json());
+app.use('/', express.static('/'));
 app.use(helmet());
 
 app.use(bodyParser.json());
